@@ -35,8 +35,7 @@ CACHED_LLAMA_ARGS=""
 
 find_cached_path() {
     local model_path
-    model_path=$(python ./find_cached.py "$LLAMA_CACHED_MODEL" "$LLAMA_CACHED_GGUF_PATH")
-    if [ $? -ne 0 ] || [ -z "$model_path" ]; then
+    if ! model_path=$(python ./find_cached.py "$LLAMA_CACHED_MODEL" "$LLAMA_CACHED_GGUF_PATH") || [ -z "$model_path" ]; then
         fail "Could not resolve cached model path. Check that LLAMA_CACHED_MODEL and LLAMA_CACHED_GGUF_PATH are correct and the model is fully cached."
     fi
     CACHED_LLAMA_ARGS="-m $model_path"
